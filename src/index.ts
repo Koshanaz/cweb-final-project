@@ -1,15 +1,12 @@
-// This is pulled from cweb midterm
-
 import "reflect-metadata";
 import {createConnection} from "typeorm";
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as createError from "http-errors";
 import * as process from "process";
-import {JokeController} from './controller/JokeController';
+import {ExampleController} from './controller/ExampleController';
 import {RouteDefinition} from './decorator/RouteDefinition';
 import * as cors from 'cors';
-import {JokeUser} from "./entity/JokeUser";
 
 const corsOptions = {
     origin: /localhost\:\d{4}$/i,
@@ -37,7 +34,7 @@ createConnection().then(async connection => {
     app.options('*', cors(corsOptions));
 
     [
-        JokeController,
+        ExampleController,
     ].forEach((controller) => {
         const instance = new controller();
         const path = Reflect.getMetadata('path', controller);
@@ -67,6 +64,7 @@ createConnection().then(async connection => {
     app.listen(port);
 
     // insert new users for test
+    /*
     await connection.manager.save(connection.manager.create(JokeUser, {
         userName: "Wright",
         token: "IcaNAddanDdelETEjokES",
@@ -77,6 +75,7 @@ createConnection().then(async connection => {
         token: "onLYallOWEDtoreADanDraTE",
         accessLevel: "READ"
     }));
+     */
 
     console.log(`Express server has started on port ${port}. Open http://localhost:${port}/users to see results`);
 
